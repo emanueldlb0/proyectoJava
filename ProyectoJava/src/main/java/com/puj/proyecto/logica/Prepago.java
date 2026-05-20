@@ -32,4 +32,20 @@ public class Prepago extends Cuenta
     public long obtenerPagoCuenta() {
         return 0;
     }
+    public long calcularSaldoDisponibleEnMes(int mes, int anio) {
+        long totalRecargasMes = 0;
+        for (recarga r : this.recargas) {
+            if (r.getFecha().getMonthValue() == mes && r.getFecha().getYear() == anio) {
+                totalRecargasMes += r.getValor();
+            }
+        }
+        return totalRecargasMes;
+    }
+    public boolean verificarYConsumirSaldoParaLlamada(long costoLlamada, int mes, int anio) {
+        long saldoDisponibleDinero = calcularSaldoDisponibleEnMes(mes, anio);
+        if (saldoDisponibleDinero >= costoLlamada) {
+            return true;
+        }
+        return false;
+    }
 }
