@@ -64,4 +64,14 @@ public class Empresa implements IEmpresa, Serializable {
         return true;
     }
 
+    public boolean registrarLlamadaA_Cuenta(long numeroTelefono, Llamada nuevaLlamada) {
+        for (Cuenta cuenta : this.cuentas) {
+            if (cuenta.getNumero() == numeroTelefono) {
+                nuevaLlamada.calcularValor();
+                cuenta.getLlamadas().add(nuevaLlamada);
+                return true;
+            }
+        }
+        return false;
+    }
 }

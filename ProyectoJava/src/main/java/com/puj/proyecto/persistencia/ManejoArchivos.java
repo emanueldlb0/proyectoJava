@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ManejoArchivos {
 
-    public static void cargarClientesTXT(String rutaArchivo, Empresa empresa) {
+    public static void cargarClientesTxt(String rutaArchivo, Empresa empresa) {
         try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea;
             while ((linea = br.readLine()) != null) {
@@ -31,6 +31,28 @@ public class ManejoArchivos {
 
         } catch (IOException e) {
             System.out.println("Error al leer el archivo de clientes: " + e.getMessage());
+        }
+    }
+
+    public static void salvarSistema(String rutaArchivo, Empresa empresa) {
+        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(new java.io.FileOutputStream(rutaArchivo))) {
+            oos.writeObject(empresa);
+            System.out.println("Sistema guardado");
+        } catch (java.io.IOException e) {
+            System.out.println("Error: "+ e.getMessage());
+        }
+    }
+
+    public static Empresa cargarSistema(String rutaArchivo) {
+        java.io.File archivo = new java.io.File(rutaArchivo);
+        if (!archivo.exists()) {
+            return null;
+        }
+        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.FileInputStream(rutaArchivo))) {
+            return (Empresa) ois.readObject();
+        } catch (java.io.IOException | ClassNotFoundException e) {
+            System.out.println("Error al recuperar el sistema: " + e.getMessage());
+            return null;
         }
     }
 }
