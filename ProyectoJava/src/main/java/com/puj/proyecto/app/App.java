@@ -81,10 +81,37 @@ public class App
                         }
                         break;
                     case 4:
+                        System.out.println("\n--- REGISTRAR RECARGA ---");
+                        System.out.print("Ingrese el número de teléfono de la cuenta prepago: ");
+                        long numTelRecarga = sc.nextLong();
+
+                        System.out.print("Ingrese la fecha de la recarga (DD/MM/AAAA): ");
+                        String fechaStr = sc.next().trim();
+                        java.time.LocalDate fechaRecarga = com.puj.proyecto.utilidades.utils.stringToLocalDate(fechaStr);
+
+                        System.out.print("Ingrese el valor de la recarga: $");
+                        double valorRecarga = sc.nextDouble();
+
+                        recarga nuevaRecarga = new recarga(fechaRecarga, valorRecarga);
+                        boolean recargaExitosa = javeMovil.registrarRecargaA_Cuenta(numTelRecarga, nuevaRecarga);
+
+                        if (recargaExitosa) {
+                            System.out.println(">>> ¡Recarga registrada exitosamente!");
+                        } else {
+                            System.out.println(">>> Error: No se encontró la cuenta o no es de tipo Prepago.");
+                        }
                         break;
                     case 5:
+                        javeMovil.mostrarReportePostpago();
                         break;
                     case 6:
+                        System.out.println("\n--- CONSULTA DE REPORTES PREPAGO ---");
+                        System.out.print("Ingrese el número del mes a consultar (1-12): ");
+                        int mesRep = sc.nextInt();
+                        System.out.print("Ingrese el año a consultar (AAAA): ");
+                        int anioRep = sc.nextInt();
+
+                        javeMovil.mostrarReportePrepago(mesRep, anioRep);
                         break;
                     case 7:
                         System.out.println("serializacion");
